@@ -47,8 +47,6 @@ async function downloadImages(urls, downloadFolder) {
 
     urls = urls.filter((url) => url.toString().startsWith('http') || url.toString().startsWith('https') || url.toString().startsWith('www'));
 
-    console.log('filtered urls:', urls)
-
     const downloadPromises = urls.map(url => downloadImage(url, downloadFolder));
     return Promise.all(downloadPromises);
 }
@@ -72,7 +70,6 @@ async function multiImageDownloader({
         }
         await extractColumnDataFromCsv(csv, columnName, startRow, endRow)
         .then((results) => {
-            console.log(results)
             source = results
         })
         .catch((error) => {

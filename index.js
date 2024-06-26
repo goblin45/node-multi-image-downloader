@@ -1,13 +1,13 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-
 const rename = require('./rename')
+const extractColumnDataFromCsv = require('./csv-extractor');
 
 function getFilePath(url, downloadFolder) {
     let fileName = path.basename(url);
     let filePath = path.resolve(downloadFolder, fileName);
-    if (fs.existsSync(filePath)) {
+    while (fs.existsSync(filePath)) {
         fileName = rename(fileName)
         filePath = path.resolve(downloadFolder, fileName);
     }
@@ -45,27 +45,47 @@ async function downloadImages(urls, downloadFolder) {
         fs.mkdirSync(downloadFolder);
     }
 
+    urls = urls.filter((url) => url.toString().startsWith('http') || url.toString().startsWith('https') || url.toString().startsWith('www'));
+
+    console.log('filtered urls:', urls)
+
     const downloadPromises = urls.map(url => downloadImage(url, downloadFolder));
     return Promise.all(downloadPromises);
 }
 
-// Example usage
-const urls = [
-    'https://static.inaturalist.org/photos/1312662/medium.jpg',
-    'https://static.inaturalist.org/photos/2027968/medium.jpg',
-    'https://static.inaturalist.org/photos/8966799/medium.jpg',
-    'https://static.inaturalist.org/photos/4579782/medium.jpeg'
-];
+const downloadFolder = 'downloads';
 
-const downloadFolder = '../downloads';
+async function multiImageDownloader({
+    urls=[],
+    targetFolder=downloadFolder,
+    // args used for csv
+    csv="", 
+    startRow,
+    endRow,
+    columnName="", 
+}) {
+    let source = urls
+    if (csv) {
+        if (!csv.endsWith('.csv')) {
+            console.error('Error: CSV file must have .csv extension');
+            return;
+        }
+        await extractColumnDataFromCsv(csv, columnName, startRow, endRow)
+        .then((results) => {
+            console.log(results)
+            source = results
+        })
+        .catch((error) => {
+            console.error('Error extracting column data:', error);
+        });
+    }
+    downloadImages(source, targetFolder)
+    .then(() => {
+        console.log('All images downloaded!');
+    })
+    .catch((err) => {
+        console.error('Error downloading images:', err);
+    });
+}
 
-downloadImages(urls, downloadFolder)
-.then(() => {
-    console.log('All images downloaded!');
-})
-.catch((err) => {
-    console.error('Error downloading images:', err);
-});
-
-
-// module.exports = multiImageDownloader
+module.exports = multiImageDownloader

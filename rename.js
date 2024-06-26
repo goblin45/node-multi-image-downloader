@@ -6,11 +6,11 @@
 function rename(name) {
     let mainName = name.split('.')[0];
     let fileExt = name.split('.')[1];
-
+    
     let num = mainName.split('-')[1];
     if (num) {
         // 1. it renames the file from file-1 to file-2 (goes on)
-        let mainName = mainName.split('-')[0];
+        mainName = mainName.split('-')[0];
         let newName = mainName + '-' + (parseInt(num) + 1) + "." + fileExt;
         return newName;
     } else {

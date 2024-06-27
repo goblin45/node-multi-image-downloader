@@ -1,8 +1,8 @@
-<h1>🧜‍♂️ Node Multiple Image Downloader</h1>
+# 🧜‍♂️ Node Multiple Image Downloader
 
 A fast and lightweight Node module for downloading images in bulk to local disk from an array of urls or url entries in a column of a .csv file.
 
-<h2>🔱 Inspiration</h2>
+## 🔱 Inspiration
 
 While working on some image classification project with deep learning, we felt the lack of such a package which can download plenty of images from entries within a `.csv` file. 📂
 
@@ -13,13 +13,13 @@ While working on some image classification project with deep learning, we felt t
 
 Let's see how we can use this package to speed up our large image downloading phases.
 
-<h2>🔱 Installation</h2>
+## 🔱 Installation
 
 ```bash
 npm install --save multi-image-downloader
 ```
 
-<h2>🔱 Options</h2>
+## 🔱 Options
 
 | Parameter | Requirement | Default Value | Example |
 |----------|----------|----------|----------|
@@ -30,11 +30,11 @@ npm install --save multi-image-downloader
 | endRow | Optional | -1 | `1000` |
 | columnName | Optional | "" | `"image_urls"` |
 
-<h2>🔱 Usage</h2>
+## 🔱 Usage
 
 Let's see how to build the options two use cases with examples ->
 
-<h3>⚡ Raw url array</h3>
+## ⚡ Raw url array
 
 ```js
 const urls = [
@@ -53,8 +53,7 @@ const options = {
 }
 ```
 
-
-<h3>💥 With a CSV file</h3>
+## 💥 With a CSV file 
 
 ```js
 const csv = 'data.csv' // an available csv file address
@@ -86,6 +85,6 @@ All images downloaded!
 
 in the console.
 
-<h3>Yeayy! We have successfully downloaded all our images and saved a lot of time! ⌛</h3>
+### Yeayy! We have successfully downloaded all our images and saved a lot of time! ⌛
 
-<h3>Hope you enjoyed this journey. See ya in another doc of some other package! Have a nice day! 🌞</h3>
+### Hope you enjoyed this journey. See ya in another doc of some other package! Have a nice day! 🌞
